@@ -1,6 +1,5 @@
 package org.launchcode.Financial_Budget.models;
 
-import com.sun.istack.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ public class User extends AbstractEntity {
 
 
     private String username;
-
 
     private String pwHash;
 
