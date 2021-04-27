@@ -26,6 +26,7 @@ public class User extends AbstractEntity {
     public String getUsername() {
         return username;
     }
+
     public boolean isMatchingPassword(String password) {
         return encoder.matches(password, pwHash);
     }
