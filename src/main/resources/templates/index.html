@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 <body>
-<!--<p th:text="${greeting}">Hello, Spring!</p>-->
 
 <div id="wrap">
     <h1><a href="index.html">Financial Budget</a></h1>
@@ -10,23 +9,20 @@
     <div id="menu">
         <p class="menulinks">
             <strong class="hide">Main menu:</strong>
-            <a class="menulink active" href="index.html">Home</a><span class="hide"> | </span>
+            <a class="menulink active" th:href="@{/index.html}">Home</a><span class="hide"> | </span>
             <a class="menulink" href="index.html">SignIn</a><span class="hide"> | </span>
             <a class="menulink" href="index.html">SignUp</a><span class="hide"> | </span>
-           <!-- <a class="menulink" href="index.html">Page 3</a><span class="hide"> | </span>
-            <a class="menulink" href="index.html">Page 4</a><span class="hide"> | </span>
-            <a class="menulink" href="index.html">Page 5</a>-->
         </p>
     </div>
     <!--<img class="feature" src="sample1.jpg" width="980" height="200" alt="sample image" />-->
-    <img th:src="@{/images/tracker.jpg}" width="980" height="350" alt="sample image"  /><div id="content">
+    <img th:src="@{/images/tracker.jpg}" width="980" height="350" alt="sample image"  />
+    <div id="content">
     <div class="left">
         <h2>Introducing Finacial Budget</h2>
         <p>
             A minimilastic expense tracker app to track all ur expenses without any hassle.Our app provides al elegant plan to a challenging question:how much do you have to spend this month.
-
         </p>
-        <!--<p>You can find additional material and variations of this template, as well as articles and tutorials on how to build websites using templates, on <a href="http://andreasviklund.com/">andreasviklund.com</a>.</p>-->
+
     </div>
 
     <div class="right">
@@ -37,6 +33,7 @@
         </p>
     </div>
 
+</div>
 </div>
 </body>
 </html>
