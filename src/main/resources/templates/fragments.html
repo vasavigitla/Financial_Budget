@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns:text-decoration="http://www.w3.org/1999/xhtml"
+      xmlns:font-weight="http://www.w3.org/1999/xhtml" xmlns:color="http://www.w3.org/1999/xhtml">
 <head th:fragment="head">
     <meta charset="UTF-8"/>
 
@@ -14,33 +15,49 @@
 </head>
 <body>
 
-
-    <!--<div th:fragment="page-header" class="navbar navbar-inverse navbar-fixed-top" >
-        <div class="container">
-            <div class="navbar-header">
-                <a  class="navbar-brand">Financial Budget</a>
-            </div>
-
-
-    </div>-->
     <div th:fragment="page-header">
+
+       <!-- <nav class="navbar navbar-custom">
+
+            <a class="navbar-brand"  href="#">Financial Budget</a>
+            <a class="navbar-brand" th:href="@{/category-view}">Category</a>
+            <a class="navbar-brand" href="#">Expenses</a>
+            <a  class="navbar-brand" href="#">View History</a>
+
+        </nav>-->
         <nav class="navbar navbar-expand-sm bg-secondary navbar-dark">
             <!-- Brand/logo -->
-            <a class="navbar-brand" href="#">Financial Budget</a>
+            <a class="navbar-brand" href="#"><h2>Financial Budget</h2></a>
 
             <!-- Links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link 1</a>
+                    <a class="nav-link" th:href="@{/category-view}" ><h4>Category</h4></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link 2</a>
+                    <a class="nav-link" href="#"><h4>Expenses</h4></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link 3</a>
+                    <a class="nav-link" href="#"><h4>View History</h4></a>
                 </li>
             </ul>
         </nav>
     </div>
+
+    <div th:fragment="page-header1">
+        <nav class="navbar navbar-expand-sm bg-secondary navbar-dark">
+            <!-- Brand/logo -->
+            <a class="navbar-brand" href="#"><h2>Financial Budget</h2></a>
+
+            <!-- Links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><h4>Home</h4></a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+
 </body>
 </html>

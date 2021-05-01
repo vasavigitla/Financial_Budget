@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+    <title>
+        Category Details
+    </title>
+</head>
+<body>
+<div th:replace="fragments :: page-header"></div>
+<div >
+
+    <h1>
+        Category List
+    </h1>
+<br>
+    <a th:href="@{/addCategory}" class="btn btn-primary btn-sm mb-3" >Add Category</a>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>
+                Category Name
+            </th>
+            <th>
+                Category Description
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${categoryList}" >
+            <td th:text="${category.categoryName}">
+            <td th:text="${category.categoryDescription}">
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

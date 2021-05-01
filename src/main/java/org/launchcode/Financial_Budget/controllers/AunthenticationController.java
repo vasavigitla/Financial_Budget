@@ -45,6 +45,12 @@ public class AunthenticationController
         model.addAttribute("title", "Log In");
         return "login";
     }
+    @GetMapping("/view")
+    public String displayView(Model model) {
+        model.addAttribute("view", "view");
+        return "view";
+    }
+
 
     public User getUserFromSession(HttpSession session) {
         Integer userId = (Integer) session.getAttribute(userSessionKey);
@@ -124,7 +130,7 @@ public class AunthenticationController
 
         setUserInSession(request.getSession(), theUser);
 
-        return "redirect:";
+        return "view";
     }
 
 }

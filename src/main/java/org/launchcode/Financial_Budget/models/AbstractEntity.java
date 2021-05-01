@@ -20,7 +20,9 @@ public abstract class AbstractEntity {
     public int getId() {
         return id;
     }
-
+    public void setId() {
+         this.id=id;
+    }
     /*public String getName() {
         return name;
     }*/
