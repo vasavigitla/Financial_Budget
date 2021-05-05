@@ -6,12 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class CategoryController {
@@ -20,7 +18,7 @@ public class CategoryController {
     private CategoryRepository categoryRepository;
 
     @RequestMapping("/category-view")
-    public String list(Model model) {
+    public String getCategory(Model model) {
         model.addAttribute("categoryList", categoryRepository.findAll());
         return "view";
     }
@@ -32,11 +30,53 @@ public class CategoryController {
         return "addCategory";
     }
 
+    @GetMapping("/showFormForUpdate/{id}")
+    public String showFormForUpdate(@PathVariable (value="id") int id, Model model) {
+        Category category=getCategoryById(id);
+        model.addAttribute("category", category);
+        return "addCategory";
+    }
+
+    @GetMapping("/deleteCategory/{id}")
+    public String deleteCategory(@PathVariable (value="id") int id, Model model) {
+
+        Category category=getCategoryById(id);
+        categoryRepository.delete(category);
+        model.addAttribute("categoryList", categoryRepository.findAll());
+        return "view";
+    }
 
     @PostMapping("/saveCategory")
-    public String saveCategory(@ModelAttribute @Valid Category category,
+    public String saveCategory( @ModelAttribute @Valid Category category,
                               Errors errors, Model model) {
-        model.addAttribute("categoryList", categoryRepository.save(category));
+        if(category.getId()!=0) {
+            Category updateCategory = new Category();
+            updateCategory.setId(category.getId());
+            updateCategory.setCategoryName(category.getCategoryName());
+            updateCategory.setCategoryDescription(category.getCategoryDescription());
+            model.addAttribute("categoryList", this.categoryRepository.save(updateCategory));
+        }
+        else
+        {
+            model.addAttribute("categoryList", this.categoryRepository.save(category));
+        }
+        model.addAttribute("categoryList", categoryRepository.findAll());
         return "view";
+    }
+
+    public Category getCategoryById(int id)
+    {
+        Optional<Category> opt=categoryRepository.findById(id);
+        Category category=null;
+        if(opt.isPresent())
+        {
+           category=opt.get();
+
+        }
+        else
+        {
+            throw new RuntimeException("Category not found::"+id);
+        }
+        return category;
     }
 }
