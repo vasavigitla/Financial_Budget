@@ -30,7 +30,6 @@ public class CategoryController {
 
     @RequestMapping("/category-view")
     public String getCategory(Model model,HttpServletRequest request) {
-
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
         model.addAttribute("categoryList", categoryRepository.findAllByUsers_Id(user.getId()));
@@ -52,32 +51,39 @@ public class CategoryController {
     }
 
     @GetMapping("/deleteCategory/{id}")
-    public String deleteCategory(@PathVariable (value="id") int id, Model model) {
-
+    public String deleteCategory(@PathVariable (value="id") int id, Model model,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = authenticationController.getUserFromSession(session);
         Category category=getCategoryById(id);
         categoryRepository.delete(category);
-        model.addAttribute("categoryList", categoryRepository.findAll());
+        model.addAttribute("categoryList", categoryRepository.findAllByUsers_Id(user.getId()));
         return "view";
     }
 
     @PostMapping("/saveCategory")
     public String saveCategory(@ModelAttribute @Valid Category category,
                                Errors errors, Model model, HttpServletRequest request) {
+
         if(category.getId()!=0) {
+            HttpSession session = request.getSession();
+            User user = authenticationController.getUserFromSession(session);
+            category.setUsers(user);
             Category updateCategory = new Category();
             updateCategory.setId(category.getId());
             updateCategory.setCategoryName(category.getCategoryName());
             updateCategory.setCategoryDescription(category.getCategoryDescription());
+            updateCategory.setUsers(category.getUsers());
             model.addAttribute("categoryList", this.categoryRepository.save(updateCategory));
+            model.addAttribute("categoryList", categoryRepository.findAllByUsers_Id(user.getId()));
         }
         else
-        {
-            HttpSession session = request.getSession();
+        {   HttpSession session = request.getSession();
             User user = authenticationController.getUserFromSession(session);
             category.setUsers(user);
             model.addAttribute("categoryList", this.categoryRepository.save(category));
+            model.addAttribute("categoryList", categoryRepository.findAllByUsers_Id(user.getId()));
         }
-        model.addAttribute("categoryList", categoryRepository.findAll());
+
         return "view";
     }
 
@@ -88,7 +94,6 @@ public class CategoryController {
         if(opt.isPresent())
         {
            category=opt.get();
-
         }
         else
         {
