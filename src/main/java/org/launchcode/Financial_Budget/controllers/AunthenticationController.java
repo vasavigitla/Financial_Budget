@@ -132,7 +132,7 @@ public class AunthenticationController
 
         setUserInSession(request.getSession(), theUser);
 
-        return "view";
+        return "profile";
     }
 
 }
