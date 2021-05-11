@@ -1,7 +1,9 @@
 package org.launchcode.Financial_Budget.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Category extends AbstractEntity{
@@ -11,6 +13,13 @@ public class Category extends AbstractEntity{
 
     @Column(name = "category_description")
     private String categoryDescription;
+
+
+
+    @ManyToOne
+   // @NotNull(message = "Category is required")
+    @JoinColumn
+    private User users;
 
     public Category() {
 
@@ -22,6 +31,13 @@ public class Category extends AbstractEntity{
         this.categoryDescription = categoryDescription;
     }
 
+    public User getUsers() {
+        return users;
+    }
+
+    public void setUsers(User users) {
+        this.users = users;
+    }
     public String getCategoryName() {
         return categoryName;
     }
@@ -37,4 +53,6 @@ public class Category extends AbstractEntity{
     public void setCategoryDescription(String categoryDescription) {
         this.categoryDescription = categoryDescription;
     }
+
+
 }

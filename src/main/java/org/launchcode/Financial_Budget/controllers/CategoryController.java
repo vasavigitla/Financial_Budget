@@ -1,25 +1,39 @@
 package org.launchcode.Financial_Budget.controllers;
 
+import org.launchcode.Financial_Budget.controllers.AunthenticationController;
+import com.mysql.cj.Session;
 import org.launchcode.Financial_Budget.models.Category;
+import org.launchcode.Financial_Budget.models.User;
 import org.launchcode.Financial_Budget.models.data.CategoryRepository;
+import org.launchcode.Financial_Budget.models.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
+
 public class CategoryController {
 
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    AunthenticationController authenticationController;
+
     @RequestMapping("/category-view")
-    public String getCategory(Model model) {
-        model.addAttribute("categoryList", categoryRepository.findAll());
+    public String getCategory(Model model,HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        User user = authenticationController.getUserFromSession(session);
+        model.addAttribute("categoryList", categoryRepository.findAllByUsers_Id(user.getId()));
         return "view";
     }
 
@@ -47,8 +61,8 @@ public class CategoryController {
     }
 
     @PostMapping("/saveCategory")
-    public String saveCategory( @ModelAttribute @Valid Category category,
-                              Errors errors, Model model) {
+    public String saveCategory(@ModelAttribute @Valid Category category,
+                               Errors errors, Model model, HttpServletRequest request) {
         if(category.getId()!=0) {
             Category updateCategory = new Category();
             updateCategory.setId(category.getId());
@@ -58,6 +72,9 @@ public class CategoryController {
         }
         else
         {
+            HttpSession session = request.getSession();
+            User user = authenticationController.getUserFromSession(session);
+            category.setUsers(user);
             model.addAttribute("categoryList", this.categoryRepository.save(category));
         }
         model.addAttribute("categoryList", categoryRepository.findAll());

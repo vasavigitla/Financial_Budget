@@ -2,8 +2,10 @@ package org.launchcode.Financial_Budget.models;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User extends AbstractEntity {
@@ -13,6 +15,10 @@ public class User extends AbstractEntity {
 
     @NotNull
     private String pwHash;
+
+   @OneToMany(mappedBy="users")
+
+    private final List<Category> categories=new ArrayList<>();
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -30,4 +36,8 @@ public class User extends AbstractEntity {
     public boolean isMatchingPassword(String password) {
         return encoder.matches(password, pwHash);
     }
+
+   // public List<Category> getCategories() {
+    //    return categories;
+    //}
 }
