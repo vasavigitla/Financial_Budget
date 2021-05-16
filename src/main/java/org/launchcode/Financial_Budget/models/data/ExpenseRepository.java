@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface ExpenseRepository extends CrudRepository<Expense, Integer> {
 
-
+    public Expense findByCategory_Id(int category_id);
 
 }

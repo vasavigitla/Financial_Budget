@@ -14,12 +14,12 @@ public class Category extends AbstractEntity{
     @Column(name = "category_description")
     private String categoryDescription;
 
-
-
     @ManyToOne
    // @NotNull(message = "Category is required")
     @JoinColumn
     private User users;
+
+
 
     public Category() {
 
@@ -38,6 +38,7 @@ public class Category extends AbstractEntity{
     public void setUsers(User users) {
         this.users = users;
     }
+
     public String getCategoryName() {
         return categoryName;
     }
@@ -55,4 +56,5 @@ public class Category extends AbstractEntity{
     }
 
 
+    
 }

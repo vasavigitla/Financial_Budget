@@ -20,6 +20,10 @@ public class User extends AbstractEntity {
 
     private final List<Category> categories=new ArrayList<>();
 
+//    @OneToMany(mappedBy="users")
+//
+//    private final List<Expense> expenses=new ArrayList<>();
+
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public User() {}

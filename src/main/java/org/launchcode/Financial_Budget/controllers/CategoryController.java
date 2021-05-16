@@ -3,8 +3,10 @@ package org.launchcode.Financial_Budget.controllers;
 import org.launchcode.Financial_Budget.controllers.AunthenticationController;
 import com.mysql.cj.Session;
 import org.launchcode.Financial_Budget.models.Category;
+import org.launchcode.Financial_Budget.models.Expense;
 import org.launchcode.Financial_Budget.models.User;
 import org.launchcode.Financial_Budget.models.data.CategoryRepository;
+import org.launchcode.Financial_Budget.models.data.ExpenseRepository;
 import org.launchcode.Financial_Budget.models.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +26,8 @@ public class CategoryController {
 
     @Autowired
     private CategoryRepository categoryRepository;
-
+    @Autowired
+    private ExpenseRepository expenseRepository;
     @Autowired
     AunthenticationController authenticationController;
 
@@ -55,6 +58,8 @@ public class CategoryController {
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
         Category category=getCategoryById(id);
+        Expense expense=expenseRepository.findByCategory_Id(id);
+        expenseRepository.delete(expense);
         categoryRepository.delete(category);
         model.addAttribute("categoryList", categoryRepository.findAllByUsers_Id(user.getId()));
         return "view";

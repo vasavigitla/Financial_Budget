@@ -47,6 +47,13 @@ public class AunthenticationController
         model.addAttribute("title", "Log In");
         return "login";
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "redirect:/login";
+    }
+
     @GetMapping("/view")
     public String displayView(Model model) {
         model.addAttribute("view", "view");

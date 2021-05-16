@@ -1,12 +1,44 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head">
+    <title>
+        Expense Details
+    </title>
 </head>
 <body>
 <div th:replace="fragments :: page-header"></div>
-<div th:align="center">
-    <h1>Add Expense</h1>
+<div >
+
+    <h1>
+        Expense List
+    </h1>
+    <br>
+    <a th:href="@{/addExpense}" class="btn btn-primary btn-sm mb-3" >Add Expense</a>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>
+                Expense Amount
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="expense : ${expenseList}" >
+            <td th:text="${expense.expense_amount}">
+            <td th:text="${expense.category.categoryName}">
+            <td>
+              <!--  <a th:href="@{/showFormForUpdate/{id}(id=${category.id})}" class="btn btn-primary"> Update</a>
+                <a th:href="@{/deleteCategory/{id}(id=${category.id})}" class="btn btn-danger">Delete</a>-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
