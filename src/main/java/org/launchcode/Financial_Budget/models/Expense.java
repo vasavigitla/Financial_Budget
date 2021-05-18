@@ -13,15 +13,10 @@ public class Expense extends AbstractEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-
-
-//    @ManyToOne
-//    // @NotNull(message = "Category is required")
-//    @JoinColumn
-//    private User users;
-
-   // @NotNull
-    //private String category_name;
+    @ManyToOne
+    // @NotNull(message = "Category is required")
+    @JoinColumn
+    private User users;
 
     public int getExpense_amount() {
         return expense_amount;
@@ -39,13 +34,13 @@ public class Expense extends AbstractEntity {
         this.category = category;
     }
 
-//    public User getUsers() {
-//        return users;
-//    }
-//
-//    public void setUsers(User users) {
-//        this.users = users;
-//    }
+    public User getUsers() {
+        return users;
+    }
+
+    public void setUsers(User users) {
+        this.users = users;
+   }
 
 
 }

@@ -16,13 +16,11 @@ public class User extends AbstractEntity {
     @NotNull
     private String pwHash;
 
-   @OneToMany(mappedBy="users")
-
+    @OneToMany(mappedBy="users")
     private final List<Category> categories=new ArrayList<>();
 
-//    @OneToMany(mappedBy="users")
-//
-//    private final List<Expense> expenses=new ArrayList<>();
+    @OneToMany(mappedBy="users")
+    private final List<Expense> expenses=new ArrayList<>();
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -40,6 +38,14 @@ public class User extends AbstractEntity {
     public boolean isMatchingPassword(String password) {
         return encoder.matches(password, pwHash);
     }
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+    public List<Expense> setExpenses() {
+        return expenses;
+    }
+
 
    // public List<Category> getCategories() {
     //    return categories;

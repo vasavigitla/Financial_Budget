@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -59,7 +61,10 @@ public class CategoryController {
         User user = authenticationController.getUserFromSession(session);
         Category category=getCategoryById(id);
         Expense expense=expenseRepository.findByCategory_Id(id);
-        expenseRepository.delete(expense);
+        if ((expense!=null))
+        {
+            expenseRepository.delete(expense);
+        }
         categoryRepository.delete(category);
         model.addAttribute("categoryList", categoryRepository.findAllByUsers_Id(user.getId()));
         return "view";
@@ -85,6 +90,16 @@ public class CategoryController {
         {   HttpSession session = request.getSession();
             User user = authenticationController.getUserFromSession(session);
             category.setUsers(user);
+            List<Category> categories=new ArrayList<>();
+            categories=categoryRepository.findAllByUsers_Id(user.getId());
+            for (Category cat : categories) {
+                if(cat.getCategoryName().equals(category.getCategoryName()))
+                {
+                    errors.rejectValue("categoryName", " categoryName.alreadyexists", "A category with that categoryname already exists");
+                    System.out.println("A category with that categoryname already exists");
+                    return "addCategory";
+                }
+            }
             model.addAttribute("categoryList", this.categoryRepository.save(category));
             model.addAttribute("categoryList", categoryRepository.findAllByUsers_Id(user.getId()));
         }

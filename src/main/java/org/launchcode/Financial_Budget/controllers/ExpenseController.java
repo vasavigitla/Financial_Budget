@@ -32,9 +32,10 @@ public class ExpenseController {
     public String viewExpenseForm(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
-        model.addAttribute("expenseList", expenseRepository.findAll());
+        model.addAttribute("expenseList",expenseRepository.findAllByUsers_Id(user.getId()));
         return "viewExpense";
     }
+
     @GetMapping("/addExpense")
     public String addExpense(Model model,HttpServletRequest request) {
         Expense expense=new Expense();
@@ -44,6 +45,14 @@ public class ExpenseController {
         model.addAttribute("expense", expense);
         return "addExpense";
     }
+
+    @GetMapping("/showFormForExpenseUpdate/{id}")
+    public String showFormForExpenseUpdate(@PathVariable (value="id") int id, Model model) {
+        Expense expense=getExpenseById(id);
+        model.addAttribute("expense", expense);
+        return "addExpense";
+    }
+
     @PostMapping("/saveExpense")
     public String saveCategory(@ModelAttribute @Valid Expense expense,
                                Errors errors, Model model, @RequestParam int categoryId,HttpServletRequest request) {
@@ -65,19 +74,35 @@ public class ExpenseController {
             model.addAttribute("categoryList", categoryRepository.findAllByUsers_Id(user.getId()));
         }*/
              HttpSession session = request.getSession();
-            User user = authenticationController.getUserFromSession(session);
-        Optional optCategory = categoryRepository.findById(categoryId);
-        if (optCategory.isPresent()) {
+             User user = authenticationController.getUserFromSession(session);
+            Optional optCategory = categoryRepository.findById(categoryId);
+            if (optCategory.isPresent()) {
             Category category = (Category) optCategory.get();
             model.addAttribute("category", category);
             expense.setCategory(category);
+            expense.setUsers(user);
             model.addAttribute("expenseList", this.expenseRepository.save(expense));
+            model.addAttribute("expenseList",expenseRepository.findAllByUsers_Id(user.getId()));
             return "viewExpense";
-        } else {
+             } else {
             return "redirect:../";
 
+         }
+
+      }
+
+    public Expense getExpenseById(int id)
+    {
+        Optional<Expense> opt=expenseRepository.findById(id);
+        Expense expense=null;
+        if(opt.isPresent())
+        {
+            expense=opt.get();
         }
-
+        else
+        {
+            throw new RuntimeException("Expense not found::"+id);
+        }
+        return expense;
     }
-
 }
