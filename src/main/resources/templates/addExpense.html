@@ -6,7 +6,7 @@
 <body>
 <div th:replace="fragments :: page-header"></div>
 <div th:align="center">
-    <h1>Add/Update Expense</h1>
+    <h1>Add Expense</h1>
     <form method="post" th:action="@{/saveExpense}"  th:object="${expense}" style="max-width:600px;">
         <div class="form-group">
             <input id="id" th:field="${expense.id}" type="hidden"/>
