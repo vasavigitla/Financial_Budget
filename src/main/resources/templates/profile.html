@@ -8,5 +8,37 @@
 <h1>
     Welcome to Financial Budget System
 </h1>
+<script>
+    google.charts.load('current', {'packages':['corechart']});
+
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+
+        let financialData = google.visualization.arrayToDataTable([
+          ['bills', 'amount spent'],
+          ['Water',     70],
+          ['Food',      200],
+          ['Savings',  180],
+          ['Entertainment', 50],
+          ['Rent',    1000]
+        ]);
+
+        let options = {
+          title: 'My Financial Chart',
+          pieHole: 0.0,
+          is3D: true
+        };
+
+        let chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+          console.log("chart");
+
+
+        chart.draw(financialData, options);
+      }
+</script>
+<div id="piechart" style="width: 1100px; height: 700px;"></div>
 </body>
 </html>
