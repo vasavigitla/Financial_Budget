@@ -9,7 +9,7 @@ public class Expense extends AbstractEntity {
     @NotNull
     private int expense_amount;
 
-    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
