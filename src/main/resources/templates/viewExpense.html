@@ -33,7 +33,7 @@
             <td th:text="${expense.expense_amount}">
             <td th:text="${expense.category.categoryName}">
             <td>
-                <a th:href="@{/showFormForExpenseUpdate/{id}(id=${expense.id})}"  class="btn btn-primary"> Update</a>
+                <a th:href="@{/showFormForExpenseUpdate/{id}(id=${expense.id})}"  class="btn btn-primary"> Edit</a>
                 <a  th:href="@{/deleteExpense/{id}(id=${expense.id})}" class="btn btn-danger">Delete</a>
             </td>
         </tr>

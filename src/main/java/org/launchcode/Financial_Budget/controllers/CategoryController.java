@@ -67,7 +67,7 @@ public class CategoryController {
         }
         categoryRepository.delete(category);
         model.addAttribute("categoryList", categoryRepository.findAllByUsers_Id(user.getId()));
-        return "view";
+        return "redirect:../category-view";
     }
 
     @PostMapping("/saveCategory")
@@ -104,7 +104,7 @@ public class CategoryController {
             model.addAttribute("categoryList", categoryRepository.findAllByUsers_Id(user.getId()));
         }
 
-        return "view";
+        return "redirect:category-view";
     }
 
     public Category getCategoryById(int id)

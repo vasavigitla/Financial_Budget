@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class ExpenseController {
+
+    private static final Random RANDOM = new Random(System.currentTimeMillis());
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -60,11 +60,73 @@ public class ExpenseController {
         Expense expense=getExpenseById(id);
         expenseRepository.delete(expense);
         model.addAttribute("expenseList", expenseRepository.findAllByUsers_Id(user.getId()));
-        return "viewExpense";
+        return "redirect:../expense-view";
+    }
+    @RequestMapping("/piechart-view")
+    public String getPieChart(Model model,HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        User user = authenticationController.getUserFromSession(session);
+       // Optional<Expense> result=expenseRepository.findById(user.getId());
+       // if (result.isPresent()) {
+           // Expense expense = (Expense) result.get();
+
+            //List<List<Expense>> listOfLists = new ArrayList<>();
+            List<Expense> expense1 = new ArrayList<>();
+            expense1=expenseRepository.findAllByUsers_Id(user.getId());
+           // listOfLists.add(expense1);
+
+        List<Object> listOfMixedTypes = new ArrayList<>();
+        List<List<Object>>listOfMixedTypes1 = new ArrayList<>();
+        //ArrayList<String> listOfStrings = new ArrayList<String>();
+        //ArrayList<Integer> listOfIntegers = new ArrayList<Integer>();
+
+
+
+        for (Expense list : expense1) {
+
+            listOfMixedTypes = new ArrayList<>();
+            listOfMixedTypes.add(list.getCategory().getCategoryName());
+            listOfMixedTypes.add(list.getExpense_amount());
+            listOfMixedTypes1.add( listOfMixedTypes);
+        }
+
+        System.out.println(listOfMixedTypes1);
+
+       // }
+
+        model.addAttribute("chartData",  listOfMixedTypes1);
+           // model.addAttribute("expenseList", expense);
+
+
+
+        List<List<Expense>> listOfLists1 = new ArrayList<>();
+        List<String> expense2 = new ArrayList<>();
+            //getChartData(listOfLists);
+//        listOfLists.forEach((list) -> {
+//            list.forEach(
+//                    (num) -> expense2.add(num.getCategory().getCategoryName())
+//
+//
+//
+//            );
+//        });
+        
+        return "viewPieChart";
+    }
+
+    private List<List<Object>> getChartData() {
+        return List.of(
+                List.of("Mushrooms", RANDOM.nextInt(5)),
+                List.of("Onions", RANDOM.nextInt(5)),
+                List.of("Olives", RANDOM.nextInt(5)),
+                List.of("Zucchini", RANDOM.nextInt(5)),
+                List.of("Pepperoni", RANDOM.nextInt(5))
+        );
     }
 
     @PostMapping("/saveExpense")
-    public String saveCategory(@ModelAttribute @Valid Expense expense,
+    public String saveExpense(@ModelAttribute @Valid Expense expense,
                                Errors errors, Model model, @RequestParam int categoryId,HttpServletRequest request) {
             if (errors.hasErrors()) {
             model.addAttribute("title", "Add Expense");
@@ -80,13 +142,14 @@ public class ExpenseController {
             expense.setUsers(user);
             model.addAttribute("expenseList", this.expenseRepository.save(expense));
             model.addAttribute("expenseList",expenseRepository.findAllByUsers_Id(user.getId()));
-            return "viewExpense";
+            return "redirect:/expense-view";
              } else {
             return "redirect:../";
 
          }
 
       }
+
 
     @PostMapping("/updateExpense")
     public String updateExpense(@ModelAttribute @Valid Expense expense,
