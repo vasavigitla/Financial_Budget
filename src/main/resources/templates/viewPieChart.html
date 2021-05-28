@@ -79,15 +79,15 @@
 
             // Create the data table.
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Topping');
-            data.addColumn('number', 'Slices');
+            data.addColumn('string', 'CategoryName');
+            data.addColumn('number', 'ExpenseAmount');
             var data1 = [[${chartData}]];
             data.addRows([[${chartData}]]);
 
 
 
             // Set chart options
-            var options = {'title':'Financial Pie Chart',
+            var options = {'title':'Financial PieChart',
                 'width':400,
                 'height':400};
 
@@ -100,7 +100,7 @@
 
 <body>
 <div th:replace="fragments :: page-header"></div>
-<h1>Financial Pie Chart</h1>
+<h1>Financial PieChart</h1>
 <div id="chart_div" th:align="center"></div>
 </body>
 </html>

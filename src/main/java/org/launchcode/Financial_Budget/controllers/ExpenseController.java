@@ -64,54 +64,21 @@ public class ExpenseController {
     }
     @RequestMapping("/piechart-view")
     public String getPieChart(Model model,HttpServletRequest request) {
-
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
-       // Optional<Expense> result=expenseRepository.findById(user.getId());
-       // if (result.isPresent()) {
-           // Expense expense = (Expense) result.get();
-
-            //List<List<Expense>> listOfLists = new ArrayList<>();
-            List<Expense> expense1 = new ArrayList<>();
-            expense1=expenseRepository.findAllByUsers_Id(user.getId());
-           // listOfLists.add(expense1);
-
+        List<Expense> expense1 = new ArrayList<>();
+        expense1=expenseRepository.findAllByUsers_Id(user.getId());
         List<Object> listOfMixedTypes = new ArrayList<>();
         List<List<Object>>listOfMixedTypes1 = new ArrayList<>();
-        //ArrayList<String> listOfStrings = new ArrayList<String>();
-        //ArrayList<Integer> listOfIntegers = new ArrayList<Integer>();
-
-
 
         for (Expense list : expense1) {
-
             listOfMixedTypes = new ArrayList<>();
             listOfMixedTypes.add(list.getCategory().getCategoryName());
             listOfMixedTypes.add(list.getExpense_amount());
             listOfMixedTypes1.add( listOfMixedTypes);
         }
-
         System.out.println(listOfMixedTypes1);
-
-       // }
-
         model.addAttribute("chartData",  listOfMixedTypes1);
-           // model.addAttribute("expenseList", expense);
-
-
-
-        List<List<Expense>> listOfLists1 = new ArrayList<>();
-        List<String> expense2 = new ArrayList<>();
-            //getChartData(listOfLists);
-//        listOfLists.forEach((list) -> {
-//            list.forEach(
-//                    (num) -> expense2.add(num.getCategory().getCategoryName())
-//
-//
-//
-//            );
-//        });
-        
         return "viewPieChart";
     }
 
@@ -154,8 +121,7 @@ public class ExpenseController {
     @PostMapping("/updateExpense")
     public String updateExpense(@ModelAttribute @Valid Expense expense,
                                Errors errors, Model model, HttpServletRequest request) {
-
-           if(expense.getId()!=0) {
+            if(expense.getId()!=0) {
             HttpSession session = request.getSession();
             User user = authenticationController.getUserFromSession(session);
             expense.setUsers(user);
