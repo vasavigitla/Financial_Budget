@@ -11,7 +11,9 @@ import java.util.List;
 public interface ExpenseRepository extends CrudRepository<Expense, Integer> {
 
     public Expense findByCategory_Id(int category_id);
+
     public List<Expense> findAllByUsers_Id(int userId);
+
 
 
 

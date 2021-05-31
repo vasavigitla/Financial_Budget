@@ -6,6 +6,7 @@ import org.launchcode.Financial_Budget.models.User;
 import org.launchcode.Financial_Budget.models.data.CategoryRepository;
 import org.launchcode.Financial_Budget.models.data.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -41,7 +42,8 @@ public class ExpenseController {
         Expense expense=new Expense();
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
-        model.addAttribute("categories", categoryRepository.findAllByUsers_Id(user.getId()));
+        //model.addAttribute("categories", categoryRepository.findAllByUsers_Id(user.getId()));
+        model.addAttribute("categories", categoryRepository.findAllAvailableCategories(user.getId()));
         model.addAttribute("expense", expense);
         return "addExpense";
     }
